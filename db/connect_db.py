@@ -1,37 +1,17 @@
-import psycopg2
-from psycopg2 import Error
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import scoped_session, sessionmaker
 
 import config
 
 
-def connect_db():
-    try:
-        # Подключение к существующей базе данных
-        connection = psycopg2.connect(user="postgres",
-                                      # пароль, который указали при установке PostgreSQL
-                                      password=config.PASS_DB,
-                                      host="127.0.0.1",
-                                      port="5432",
-                                      database="web_diary_db")
+engine = create_engine(f'postgresql+psycopg2://{config.USER_DB}:{config.PASS_DB}'
+                       f'@{config.HOST}:{config.PORT}/{config.DB_NAME}',
+                       pool_pre_ping=True)
+engine.connect()
 
-        # Курсор для выполнения операций с базой данных
-        cursor = connection.cursor()
-        # Распечатать сведения о PostgreSQL
-        print("Информация о сервере PostgreSQL")
-        print(connection.get_dsn_parameters(), "\n")
-        # Выполнение SQL-запроса
-        cursor.execute("SELECT version();")
-        # Получить результат
-        record = cursor.fetchone()
-        print("Вы подключены к - ", record, "\n")
+db_session = scoped_session(sessionmaker(bind=engine))
 
-    except (Exception, Error) as error:
-        print("Ошибка при работе с PostgreSQL", error)
-    finally:
-        if connection:
-            cursor.close()
-            connection.close()
-            print("Соединение с PostgreSQL закрыто")
+Base = declarative_base()
+Base.query = db_session.query_property()
 
-
-connect_db()
