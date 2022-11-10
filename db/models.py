@@ -9,7 +9,7 @@ class User(Base):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
     name = Column(String, unique=True)
-    date_of_registration = Column(DateTime, default=datetime.now)
+    date_of_registration = Column(DateTime, default=datetime.now) # определение часового пояса???
     email = Column(String(120), unique=True)
     password = Column(String(120), unique=True)
 
@@ -28,7 +28,7 @@ class Note(Base):
     id = Column(Integer, primary_key=True)
     mood = Column(String)
     dairy_entry = Column(String)
-    date_added = Column(DateTime, default=datetime.now)
+    date_added = Column(DateTime, default=datetime.now) # определение часового пояса???
     user_id = Column(Integer, ForeignKey('users.id'))
 
     def __repr__(self):
