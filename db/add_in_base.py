@@ -12,6 +12,3 @@ def add_note(mood: str, note: str):
     note = Note(mood=mood, dairy_entry=note)
     db_session.add(note)
     db_session.commit()
-
-
-add_user('vasia', 'sdaf@sdg.rt', '123qwe')
