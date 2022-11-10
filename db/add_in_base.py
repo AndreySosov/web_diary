@@ -1,4 +1,4 @@
-from proba_111 import db_session
+from connect_db import db_session
 from models import User, Note
 
 
@@ -12,6 +12,3 @@ def add_note(mood: str, note: str):
     note = Note(mood=mood, dairy_entry=note)
     db_session.add(note)
     db_session.commit()
-
-
-add_user('vasia', 'sdaf@sdg.rt', '123qwe')
