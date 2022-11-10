@@ -8,10 +8,10 @@ from connect_db import Base, engine
 class User(Base):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
-    name = Column(String, unique=True)
+    name = Column(String(120), unique=True, nullable=False)
     date_of_registration = Column(DateTime, default=datetime.now) # определение часового пояса???
-    email = Column(String(120), unique=True)
-    password = Column(String(120), unique=True)
+    email = Column(String(120), unique=True, nullable=False)
+    password = Column(String(120), unique=True, nullable=False)
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
@@ -26,8 +26,8 @@ class User(Base):
 class Note(Base):
     __tablename__ = 'notes'
     id = Column(Integer, primary_key=True)
-    mood = Column(String)
-    dairy_entry = Column(String)
+    mood = Column(String(50), nullable=False)
+    dairy_entry = Column(String, nullable=False)
     date_added = Column(DateTime, default=datetime.now) # определение часового пояса???
     user_id = Column(Integer, ForeignKey('users.id'))
 
