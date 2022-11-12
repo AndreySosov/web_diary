@@ -1,4 +1,4 @@
-from proba_111 import db_session
+from connect_db import db_session
 from models import User, Note
 
 
